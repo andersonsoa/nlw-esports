@@ -4,7 +4,8 @@
   "private": true,
   "files": [
     "base.json",
-    "nextjs.json",
+    "vitejs.json",
+    "nestjs.json",
     "react-library.json"
   ]
 }

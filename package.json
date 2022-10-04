@@ -15,7 +15,9 @@
   "devDependencies": {
     "eslint-config-custom": "*",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "prisma": "npm:abbrev@1",
+    "@prisma/client": "npm:abbrev@1"
   },
   "engines": {
     "node": ">=14.0.0"
