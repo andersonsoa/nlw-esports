@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[data-state="on"] {
+  @apply bg-violet-500;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  @apply hidden;
+}
