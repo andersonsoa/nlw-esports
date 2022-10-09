@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { convertMinutesToHours } from 'src/utils/convert-minutes-to-hours';
 
 @Injectable()
 export class GamesService {
@@ -18,7 +19,7 @@ export class GamesService {
   }
 
   async getGameById(gameId: string) {
-    return this.prismaService.game.findUnique({
+    const game = await this.prismaService.game.findUnique({
       where: {
         id: gameId,
       },
@@ -26,5 +27,15 @@ export class GamesService {
         ads: true,
       },
     });
+
+    return {
+      ...game,
+      ads: game.ads.map((ad) => ({
+        ...ad,
+        weekDays: ad.weekDays.split(','),
+        hourStart: convertMinutesToHours(ad.hourStart),
+        hourEnd: convertMinutesToHours(ad.hourEnd),
+      })),
+    };
   }
 }

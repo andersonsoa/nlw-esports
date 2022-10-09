@@ -1,7 +1,6 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import "keen-slider/keen-slider.min.css";
 import { KeenSliderOptions, useKeenSlider } from "keen-slider/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Logo from "../assets/logo.svg";
 import { CreateAdBanner } from "../components/CreateAdBanner";
 import { CreateAdModal } from "../components/CreateAdModal";
@@ -18,16 +17,16 @@ interface Game {
 }
 
 export const Home = () => {
+  const [createAdModalOpen, setCreateAdModalOpen] = useState(false);
   const [options, setOptions] = useState<KeenSliderOptions>({});
   const [games, setGames] = useState<Game[]>([]);
 
   const [ref] = useKeenSlider<HTMLDivElement>(options, []);
 
-  useEffect(() => {3333
+  const loadGames = useCallback(() => {
     api.get("games").then((response) => {
       setGames(response.data);
       setOptions({
-        mode: "free-snap",
         breakpoints: {
           "(min-width: 724px)": {
             slides: { perView: 4, spacing: 14 },
@@ -41,8 +40,20 @@ export const Home = () => {
     });
   }, []);
 
+  const onCreateAd = useCallback(() => {
+    setCreateAdModalOpen(false);
+    loadGames();
+  }, []);
+
+  const handleOpenCreateAdModal = () => setCreateAdModalOpen(true);
+  const handleCloseCreateAdModal = () => setCreateAdModalOpen(false);
+
+  useEffect(() => {
+    loadGames();
+  }, []);
+
   return (
-    <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20 px-8">
+    <div className="max-w-[1344px] mx-auto flex flex-col items-center py-20 px-8">
       <img src={Logo} />
 
       <h1 className="text-6xl text-white font-black mt-20">
@@ -67,11 +78,13 @@ export const Home = () => {
         })}
       </div>
 
-      <Dialog.Root>
-        <CreateAdBanner />
+      <CreateAdBanner handleCreateAd={handleOpenCreateAdModal} />
 
-        <CreateAdModal />
-      </Dialog.Root>
+      <CreateAdModal
+        createAdModalOpen={createAdModalOpen}
+        handleCloseCreateAdModal={handleCloseCreateAdModal}
+        onCreate={onCreateAd}
+      />
     </div>
   );
 };
