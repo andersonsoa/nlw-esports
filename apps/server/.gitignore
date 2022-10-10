@@ -3,7 +3,7 @@
 /node_modules
 
 # DB
-
+/dev.db
 # Env
 
 .env
