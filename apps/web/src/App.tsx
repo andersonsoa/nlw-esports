@@ -1,15 +1,18 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Ad } from "./pages/Ad";
 import { Home } from "./pages/Home";
 
 function App() {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
-      <Routes>
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/:gameId" element={<Ad />} />
       </Routes>
-    </BrowserRouter>
+    </AnimatePresence>
   );
 }
 

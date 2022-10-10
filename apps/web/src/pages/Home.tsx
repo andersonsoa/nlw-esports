@@ -5,6 +5,7 @@ import Logo from "../assets/logo.svg";
 import { CreateAdBanner } from "../components/CreateAdBanner";
 import { CreateAdModal } from "../components/CreateAdModal";
 import { GameCard } from "../components/GameCard";
+import { MotionPage } from "../components/MotionPage";
 import { api } from "../services/api";
 
 interface Game {
@@ -53,38 +54,41 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="max-w-[1344px] mx-auto flex flex-col items-center py-20 px-8">
-      <img src={Logo} />
+    <MotionPage>
+      <div className="max-w-[1344px] mx-auto flex flex-col items-center py-20 px-8">
+        <img src={Logo} />
 
-      <h1 className="text-6xl text-white font-black mt-20">
-        Seu{" "}
-        <span className="text-transparent bg-nlw-gradient bg-clip-text">
-          duo
-        </span>{" "}
-        está aqui.
-      </h1>
+        <h1 className="text-6xl text-white font-black mt-20">
+          Seu{" "}
+          <span className="text-transparent bg-nlw-gradient bg-clip-text">
+            duo
+          </span>{" "}
+          está aqui.
+        </h1>
 
-      <div ref={ref} className="mt-16 keen-slider">
-        {games.map((game) => {
-          return (
-            <GameCard
-              key={game.id}
-              id={game.id}
-              title={game.title}
-              bannerUrl={game.bannerUrl}
-              adsCount={game._count.ads}
-            />
-          );
-        })}
+        <div ref={ref} className="mt-16 keen-slider">
+          {games.map((game, idx) => {
+            return (
+              <GameCard
+                key={game.id}
+                id={game.id}
+                title={game.title}
+                bannerUrl={game.bannerUrl}
+                adsCount={game._count.ads}
+                delay={idx / 10}
+              />
+            );
+          })}
+        </div>
+
+        <CreateAdBanner handleCreateAd={handleOpenCreateAdModal} />
+
+        <CreateAdModal
+          createAdModalOpen={createAdModalOpen}
+          handleCloseCreateAdModal={handleCloseCreateAdModal}
+          onCreate={onCreateAd}
+        />
       </div>
-
-      <CreateAdBanner handleCreateAd={handleOpenCreateAdModal} />
-
-      <CreateAdModal
-        createAdModalOpen={createAdModalOpen}
-        handleCloseCreateAdModal={handleCloseCreateAdModal}
-        onCreate={onCreateAd}
-      />
-    </div>
+    </MotionPage>
   );
 };

@@ -1,5 +1,5 @@
+import { motion } from "framer-motion";
 import { GameController } from "phosphor-react";
-import { useState } from "react";
 import { AdInfo } from "./AdInfo";
 
 interface Ad {
@@ -15,13 +15,18 @@ interface Ad {
 interface Props {
   data: Ad;
   onConnect?: (adId: string) => void;
+  delay?: number;
 }
 
-export const AdCard = ({ data, onConnect = () => {} }: Props) => {
-  const [isDicordModalOpen, setIsDiscordModalOpen] = useState(false);
+export const AdCard = ({ data, onConnect = () => {}, delay = 0.1 }: Props) => {
   return (
-    <>
-      <div className="bg-zinc-800/50 rounded-lg p-5 backdrop-blur-sm keen-slider__slide">
+    <div className="keen-slider__slide">
+      <motion.div
+        className="bg-zinc-800/50 rounded-lg p-5 backdrop-blur-sm"
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay }}
+      >
         <AdInfo label="Nome" value={data.name} />
         <AdInfo label="Tempo de jogo" value={`${data.yearsPlaying} ano(s)`} />
         <AdInfo
@@ -43,7 +48,7 @@ export const AdCard = ({ data, onConnect = () => {} }: Props) => {
             Conectar
           </button>
         </div>
-      </div>
-    </>
+      </motion.div>
+    </div>
   );
 };

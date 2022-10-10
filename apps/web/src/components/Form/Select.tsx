@@ -49,7 +49,7 @@ export function Select<Value extends Option>({
                 className="cursor-pointer select-none py-2 pl-4 pr-4 rounded hover:bg-zinc-800"
                 value={option}
               >
-                <span className={`block truncate`}>{option.title}</span>
+                <span className="block truncate text-sm">{option.title}</span>
               </Listbox.Option>
             ))}
             {/* </div> */}

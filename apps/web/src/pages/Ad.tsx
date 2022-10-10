@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { AdCard } from "../components/AdCard";
 import { DiscordModal } from "../components/DiscordModal";
+import { MotionPage } from "../components/MotionPage";
 import { NoAds } from "../components/NoAds";
 import { api } from "../services/api";
 
@@ -71,7 +72,7 @@ export const Ad = () => {
     });
   }, []);
   return (
-    <>
+    <MotionPage>
       <div className="max-w-[1344px] mx-auto py-20 px-8">
         <header className="flex justify-between pt-12">
           <Link to="/" className="w-28 flex items-center text-2xl text-white">
@@ -97,11 +98,16 @@ export const Ad = () => {
                 Encontre o duo perfeito e comece a jogar!
               </p>
             </div>
-            <div ref={sliderRef} className="keen-slider">
+            <div ref={sliderRef} className="keen-slider grid-row">
               {game &&
                 (game.ads.length ? (
-                  game.ads.map((ad) => (
-                    <AdCard key={ad.id} data={ad} onConnect={handleConnect} />
+                  game.ads.map((ad, idx) => (
+                    <AdCard
+                      key={ad.id}
+                      data={ad}
+                      onConnect={handleConnect}
+                      delay={idx / 10}
+                    />
                   ))
                 ) : (
                   <NoAds />
@@ -109,13 +115,12 @@ export const Ad = () => {
             </div>
           </div>
         </div>
+        <DiscordModal
+          discord={discord}
+          isDiscordModalOpen={isDicordModalOpen}
+          handleCloseDiscordModal={handleCloseDiscordModal}
+        />
       </div>
-
-      <DiscordModal
-        discord={discord}
-        isDiscordModalOpen={isDicordModalOpen}
-        handleCloseDiscordModal={handleCloseDiscordModal}
-      />
-    </>
+    </MotionPage>
   );
 };
