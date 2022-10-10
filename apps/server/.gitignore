@@ -3,9 +3,9 @@
 /node_modules
 
 # DB
-.db
 
 # Env
+
 .env
 
 # Logs
